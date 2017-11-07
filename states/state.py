@@ -4,4 +4,8 @@ class State(object):
         pass
 
     def do(self, event, args):
-        return self
+        handler = getattr(self, "on"+event, None)
+        if callable(handler):
+            return handler(*args)
+        else:
+            return self
