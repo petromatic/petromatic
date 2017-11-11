@@ -71,7 +71,25 @@ class httpDeviceHandler(BaseHTTPRequestHandler):
                     }}
                 </style>
 
+                <input type='number' value=100 id='carga'><br/>
+
                 {1}
+
+<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+                <script type="text/javascript">
+                    $(document).ready(() => {{
+                        $("#carga").on("change",() => {{
+                            $.ajax({{
+                                url: "/action/ChargeChange/"+$("#carga").val()
+                            }}).done((data)=>{{
+                                console.log(data);
+                            }});
+                        }});
+                    }});
+                </script>
 
             </body>
         </html>
