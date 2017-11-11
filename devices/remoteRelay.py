@@ -8,6 +8,14 @@ class RemoteRelay(object):
         self.ip = ip
         self.port = port
         self.pin = pin
+        self.sock = socket(AF_INET, SOCK_STREAM)
+        self.sock.connect((self.ip, self.port))
+
+    def off(self):
+        self.set(0)
+
+    def on(self):
+        self.set(1)
 
     def set(self, state):
         """
@@ -15,6 +23,5 @@ class RemoteRelay(object):
                 0: Off
                 1: On
         """
-        with socket(AF_INET, SOCK_STREAM) as sock:
-            sock.connect((self.ip, self.port))
-            sock.sendall("O"+self.pin+state)
+        msg = "O"+str(self.pin)+str(state)
+        self.sock.send(msg.encode('ascii'))
