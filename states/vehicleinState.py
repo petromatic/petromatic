@@ -5,7 +5,6 @@ class VehicleinState(State):
         super(VehicleinState, self).__init__()
 
     def onPumpAccessRequest(self):
-        print(__file__ + " TODO: Start pump")
         from .fillState import FillState
         return FillState()
 
