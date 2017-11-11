@@ -1,10 +1,24 @@
 from .state import State
+from .station import Station
 
 class FillState(State):
     def __init__(self):
         super(FillState, self).__init__()
+        self.station = Station.get()
+        self.station.flowMeter.reset()
+        self.station.pump.on()
+        self.charge = 100
+
+    def onChargeChange(self, charge):
+        self.charge = int(charge)
+        return self
+
+    def onFlowMeterChange(self, value):
+        if value > self.charge:
+            self.station.pump.off()
+        return self
 
     def onPumpCloses(self):
-        print(__file__ + " TODO: Turn pump off")
+        self.station.pump.off()
         from .vehicleinState import VehicleinState
         return VehicleinState()
