@@ -19,15 +19,26 @@ class FlowMeter(Thread):
         """Suscribe to events"""
         self.eventListeners += [listener]
 
+    def reset(self):
+        self.serial.write(b'FM+RST.ACM\n')
+
     def run(self):
         v0 = 0.0
         while True:
-            self.serial.write(b'FM+ACM\r\n')
-            v = float(self.serial.readline()) # Needs timeout in serial for security
-            if v != v0:
-                self.raiseEvent("FlowMeterChange",[v])
-            v0 = v
-            sleep(0.125)
+            self.serial.write(b'FM+ACM\n')
+            data = self.serial.readline()
+            if len(data)>0:
+                try:
+                    v = float(data.strip()) # Needs timeout in serial for security
+                    if v != v0:
+                        self.raiseEvent("FlowMeterChange",[v])
+                        print(v)
+                    v0 = v
+                    sleep(0.1)
+                except:
+                    sleep(0.1)
+                    pass
+
     
     def raiseEvent(self, event, args):
         for listener in self.eventListeners:
