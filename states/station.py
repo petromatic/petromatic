@@ -5,6 +5,7 @@ class Station(object):
     def __init__(self):
         self.pump = None
         self.flowMeter = None
+        self.rfid_em = None
 
     @staticmethod
     def get():
