@@ -71,7 +71,7 @@ class httpDeviceHandler(BaseHTTPRequestHandler):
                     }}
                 </style>
 
-                <input type='number' value=100 id='carga'><br/>
+                <input type='number' value=10 id='carga'><br/>
 
                 {1}
 

@@ -5,9 +5,8 @@ class FillState(State):
     def __init__(self):
         super(FillState, self).__init__()
         self.station = Station.get()
-        self.station.flowMeter.reset()
         self.station.pump.on()
-        self.charge = 100
+        self.charge = 5
 
     def onChargeChange(self, charge):
         self.charge = int(charge)
@@ -20,5 +19,7 @@ class FillState(State):
 
     def onPumpCloses(self):
         self.station.pump.off()
+        self.station.flowMeter.reset()
+        self.station.rfid_em.off()
         from .vehicleinState import VehicleinState
         return VehicleinState()
