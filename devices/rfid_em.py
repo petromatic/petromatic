@@ -28,7 +28,7 @@ class RfidEM(Thread):
         self.serialLock.release()
 
     def setColor(self,r,g,b):
-        msg = 'BD{0:03}{1:03}{2:03}F.'.format(r/255,g/255,b/255).encode()
+        msg = 'BD{0:03}{1:03}{2:03}F.'.format(r,g,b).encode()
         self.serialLock.acquire()
         self.serial.write(msg)
         self.serialLock.release()
@@ -59,7 +59,8 @@ class RfidEM(Thread):
             self.serialLock.acquire()
             data = self.serial.readline()
             self.serialLock.release()
-            if exp.match(data) is not None:
+            r = exp.match(data.decode('utf-8'))
+            if r is not None:
                 rfid = data[r.pos+5:r.pos+13]
                 self.raiseEvent("RfidEMRead",[rfid])
             sleep(0.125)
