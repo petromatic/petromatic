@@ -1,20 +1,25 @@
 #!/usr/bin/env python3
-
+from serial import Serial
 from devices.httpDevice import httpDevice
+from devices.remoteRelay import RemoteRelay
+from devices.flowMeter import FlowMeter
+from devices.simRelay import SimRelay
+from devices.rfid_em import RfidEM
+
+from states.station import Station
 from states.stateMachine import StateMachine
 
-#h = httpDevice(8080)
-#s = StateMachine()
-#h.suscribe(lambda e,a: s.do(e,a))
+def main():
+    s = StateMachine()
+    station = Station.get()
+    station.pump = RemoteRelay("192.168.1.199",9760,1)
+    #station.pump = SimRelay()
+    station.flowMeter = FlowMeter(Serial('/dev/ttyUSB0', timeout=10))
+    station.flowMeter.suscribe(lambda e,a: s.do(e,a))
+    station.rfid_em = RfidEM(Serial('/dev/ttyUSB1', timeout=1))
+    station.rfid_em.suscribe(lambda e,a: s.do(e,a))
+    h = httpDevice(8080)
+    h.suscribe(lambda e,a: s.do(e,a))
 
-from serial import Serial
-
-ser = Serial('/dev/ttyACM0')
-from devices.flowMeter import FlowMeter
-
-f = FlowMeter(ser)
-f.suscribe(lambda e,a: print(e,a))
-
-h = httpDevice(8080)
-s = StateMachine()
-h.suscribe(lambda e,a: s.do(e,a))
+if __name__ == "__main__":
+    main()
