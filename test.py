@@ -6,8 +6,11 @@ from devices.flowMeter import FlowMeter
 from devices.simRelay import SimRelay
 from devices.rfid_em import RfidEM
 
+from accounts.fbaAccountManager import FbaAccountManager
+
 from states.station import Station
 from states.stateMachine import StateMachine
+
 
 def main():
     s = StateMachine()
@@ -20,6 +23,7 @@ def main():
     station.rfid_em.suscribe(lambda e,a: s.do(e,a))
     h = httpDevice(8080)
     h.suscribe(lambda e,a: s.do(e,a))
+    station.accountManager = FbaAccountManager()
 
 if __name__ == "__main__":
     main()
