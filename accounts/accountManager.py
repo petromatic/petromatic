@@ -3,8 +3,8 @@ class AccountManager(object):
     def __init__(self):
         super(AccountManager, self).__init__()
 
-    def getUserByRFID(self, rfid):
+    def getUserByRFID(self, rfidlr, rfidem):
         pass
 
-    def getUserInfo(self, userId):
+    def RfidLRIsValid(self, userId):
         pass
