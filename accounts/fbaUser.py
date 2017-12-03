@@ -18,4 +18,5 @@ class FbaUser(User):
 
     def addCharge(self, charge):
         self._credit["value"] -= charge
-        self._transactionRef.push({"localtime":int(time()),"value":-charge,"timestamp":{".sv": "timestamp"}})
+        localtime = int(time()*1000)
+        self._transactionRef.push({"localtime":localtime,"value":-charge,"timestamp":{".sv": "timestamp"}})
