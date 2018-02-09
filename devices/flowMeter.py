@@ -3,21 +3,18 @@
 """
 from threading import Thread
 from time import sleep
+from observable import Observable
 
-class FlowMeter(Thread):
+class FlowMeter(Thread, Observable):
     """
         FlowMeter class
     """
     def __init__(self, serial):
-        super(FlowMeter, self).__init__()
+        super().__init__()
         self.serial = serial
         self.daemon = True
         self.eventListeners = []
         self.start()
-
-    def suscribe(self, listener):
-        """Suscribe to events"""
-        self.eventListeners += [listener]
 
     def reset(self):
         self.serial.write(b'FM+RST.ACM\n')
@@ -38,8 +35,3 @@ class FlowMeter(Thread):
                 except:
                     sleep(0.1)
                     pass
-
-    
-    def raiseEvent(self, event, args):
-        for listener in self.eventListeners:
-            listener(event, args)

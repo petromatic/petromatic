@@ -5,22 +5,19 @@ from threading import Thread
 from time import sleep
 from threading import Lock
 import re
+from observable import Observable
 
-class RfidEM(Thread):
+class RfidEM(Thread, Observable):
     """
         RFID class
     """
     def __init__(self, serial):
-        super(RfidEM, self).__init__()
+        super().__init__()
         self.serial = serial
         self.serialLock = Lock()
         self.daemon = True
         self.eventListeners = []
         self.start()
-
-    def suscribe(self, listener):
-        """Suscribe to events"""
-        self.eventListeners += [listener]
 
     def reset(self):
         self.serialLock.acquire()
@@ -64,7 +61,3 @@ class RfidEM(Thread):
                 rfid = data[r.pos+5:r.pos+13]
                 self.raiseEvent("RfidEMRead",[rfid])
             sleep(0.125)
-    
-    def raiseEvent(self, event, args):
-        for listener in self.eventListeners:
-            listener(event, args)
