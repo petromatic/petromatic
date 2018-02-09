@@ -9,7 +9,7 @@ class VehicleinState(State):
 
     def onRfidEMRead(self, rfid):
         from .fillState import FillState
-        user = self._station.accountManager.getUserByRFID(self._station., rfid)
+        user = self._station.accountManager.getUserByRFID(self._station.rflrId, rfid.decode())
         if user is not None:
             self._station.user = user
             self._station.rfid_em.ack()
