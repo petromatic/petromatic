@@ -1,4 +1,4 @@
-ControlWindow:
+FillWindow:
     cols:1
 
     BoxLayout:
@@ -26,6 +26,13 @@ ControlWindow:
             Label:
                 text: root.vehicle.plate
 
+    GridLayout:
+        cols: 2
+        Label:
+            text: 'Litros'
+        Label:
+            text: root.liters
+            
     Button:
         text: 'Salir'
         on_press: root.clicked()
