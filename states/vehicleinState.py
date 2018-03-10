@@ -18,13 +18,9 @@ class VehicleinState(State):
             self._station.rfid_em.nack()
             return self
 
-    def onPumpAccessRequest(self):
-        from .fillState import FillState
-        return FillState()
-
     def onExitRequest(self):
         print(__file__ + " TODO: Open exit gate")
         self._station.rfid_em.off()
         self._station.rflrId = None
-        from .exitState import ExitState
-        return ExitState()
+        from .idleState import IdleState
+        return IdleState()

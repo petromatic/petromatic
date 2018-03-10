@@ -7,18 +7,17 @@ class IdleState(State):
         self._station = Station.get()
 
     def onAccessRequest(self):
-        print(__file__ + " TODO: Open entrance gate")
         print(__file__ + " TODO: Power on")
         from .enterState import EnterState
         self._station.rflrId = "AhPg"
         return EnterState()
         
     def onRfidLRRead(self, rfid):
-        print(__file__ + " TODO: Open entrance gate")
         print(__file__ + " TODO: Power on")
-        from .enterState import EnterState
+        from .vehicleinState import VehicleinState
         if self._station.accountManager.RfidLRIsValid(rfid):
             self._station.rflrId = rfid
-            return EnterState()
+            return VehicleinState()
         else:
             return self
+
