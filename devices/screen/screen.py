@@ -67,10 +67,10 @@ class Screen(App, Observable):
         self.fill.setLiters(self, liters)
 
     def showFill(self):
-        self.sm.switch_to("fill")
+        self.sm.switch_to(self.fill)
 
     def showIdle(self):
-        self.sm.switch_to("idle")
+        self.sm.switch_to(self.idle)
 
     def build(self):
         path = os.path.dirname(os.path.abspath(__file__))
@@ -78,7 +78,7 @@ class Screen(App, Observable):
         self.fill = Builder.load_file(os.path.join(path,"fillWindow.kv"), name="fill")
         self.fill.suscribe(self.raiseEvent)
         self.sm = ScreenManager(transition=NoTransition())
-        self.sm.switch_to(self.idle)
+        self.showIdle()
         return self.sm
 
 if __name__ == '__main__':

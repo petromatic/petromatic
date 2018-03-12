@@ -8,6 +8,7 @@ class FillState(State):
         self._station.pump.on()
         self._credit = self._station.user.getCredit()
         self._charge = 0
+        self._station.screen.showFill()
 
     def onFlowMeterChange(self, value):
         self._charge = value
