@@ -17,10 +17,10 @@ def main():
     station.pump = GPIORelay(21)
     station.flowMeter = FlowMeter(Serial('/dev/ttyUSB0', timeout=10))
     station.flowMeter.suscribe(lambda e,a: s.do(e,a))
-    station.rfid_em = RfidEM(Serial('/dev/ttyUSB1', timeout=1))
+    station.rfid_em = RfidEM(Serial('/dev/ttyUSB2', timeout=1))
     station.rfid_em.suscribe(lambda e,a: s.do(e,a))
     station.screen = Screen()
-    station.accountManager = FfAccountManager()
+    station.screen.run()
 
 def testAccount():
     a = FfAccountManager()
