@@ -12,7 +12,6 @@ from states.stateMachine import StateMachine
 
 
 def main():
-    s = StateMachine()
     station = Station.get()
     station.pump = GPIORelay(21)
     station.flowMeter = FlowMeter(Serial('/dev/ttyUSB0', timeout=10))
@@ -20,6 +19,7 @@ def main():
     station.rfid_em = RfidEM(Serial('/dev/ttyUSB2', timeout=1))
     station.rfid_em.suscribe(lambda e,a: s.do(e,a))
     station.screen = Screen()
+    s = StateMachine()
     station.screen.run()
 
 def testAccount():

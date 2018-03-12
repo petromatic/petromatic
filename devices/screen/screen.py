@@ -56,6 +56,11 @@ class IdleWindow(kvScreen, Observable):
 class Screen(App, Observable):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.sm = ScreenManager(transition=NoTransition())
+        path = os.path.dirname(os.path.abspath(__file__))
+        self.idle = Builder.load_file(os.path.join(path,"idleWindow.kv"), name="idle")
+        self.fill = Builder.load_file(os.path.join(path,"fillWindow.kv"), name="fill")
+        self.fill.suscribe(self.raiseEvent)
             
     def setDriver(self, driver):
         self.fill.setDriver(driver)
@@ -73,12 +78,6 @@ class Screen(App, Observable):
         self.sm.switch_to(self.idle)
 
     def build(self):
-        path = os.path.dirname(os.path.abspath(__file__))
-        self.idle = Builder.load_file(os.path.join(path,"idleWindow.kv"), name="idle")
-        self.fill = Builder.load_file(os.path.join(path,"fillWindow.kv"), name="fill")
-        self.fill.suscribe(self.raiseEvent)
-        self.sm = ScreenManager(transition=NoTransition())
-        self.showIdle()
         return self.sm
 
 if __name__ == '__main__':
