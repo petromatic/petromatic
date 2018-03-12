@@ -3,7 +3,7 @@
 """
 from threading import Thread
 from time import sleep
-from observable import Observable
+from .observable import Observable
 
 class FlowMeter(Thread, Observable):
     """

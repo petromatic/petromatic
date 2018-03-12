@@ -5,7 +5,7 @@ from threading import Thread
 from time import sleep
 from threading import Lock
 import re
-from observable import Observable
+from .observable import Observable
 
 class RfidEM(Thread, Observable):
     """

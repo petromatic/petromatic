@@ -5,7 +5,7 @@ from threading import Thread
 from time import sleep
 from threading import Lock
 import base64
-from observable import Observable
+from .observable import Observable
 
 class RfidLR(Thread, Observable):
     """
