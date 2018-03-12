@@ -74,12 +74,11 @@ class Screen(App, Observable):
 
     def build(self):
         path = os.path.dirname(os.path.abspath(__file__))
-        self.idle = Builder.load_file(os.path.join(path,"IdleWindow.kv"), name="idle")
+        self.idle = Builder.load_file(os.path.join(path,"idleWindow.kv"), name="idle")
         self.fill = Builder.load_file(os.path.join(path,"fillWindow.kv"), name="fill")
         self.fill.suscribe(self.raiseEvent)
         self.sm = ScreenManager(transition=NoTransition())
-        self.sm.add_widget(self.fill)
-        self.sm.add_widget(self.idle)
+        self.sm.switch_to(self.idle)
         return self.sm
 
 if __name__ == '__main__':
