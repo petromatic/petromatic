@@ -10,6 +10,7 @@ class Station(object):
         self.accountManager = None
         self.user = None
         self.rflrId = None
+        self.screen = None
 
     @staticmethod
     def get():
