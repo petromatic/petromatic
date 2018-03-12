@@ -4,6 +4,7 @@ from serial import Serial
 from devices.GPIORelay import GPIORelay
 from devices.flowMeter import FlowMeter
 from devices.rfid_em import RfidEM
+from devices.rfid_lr import RfidLR
 from devices.screen.screen import Screen
 
 from accounts.ffAccountManager import FfAccountManager
@@ -16,7 +17,6 @@ import configparser
 def main():
     config = configparser.SafeConfigParser()
     config.read('config.ini')
-    s = StateMachine()
     station = Station.get()
     gpioRelay = int(config.get('PUMP','RELAY_PIN', fallback=21))
     flowMeterPort = config.get('FLOWMETER', 'TTY', fallback='/dev/ttyUSB0')
@@ -27,9 +27,11 @@ def main():
     station.flowMeter.suscribe(lambda e,a: s.do(e,a))
     station.rfid_em = RfidEM(Serial(rfidemPort, timeout=1))
     station.rfid_em.suscribe(lambda e,a: s.do(e,a))
-    station.rfid_lr = RfidEM(Serial(rfidlrPort, timeout=1))
+    station.rfid_lr = RfidLR(Serial(rfidlrPort, timeout=1))
     station.rfid_lr.suscribe(lambda e,a: s.do(e,a))
     station.screen = Screen()
+    station.accountManager = FfAccountManager()
+    s = StateMachine()
     station.screen.run()
 
 if __name__ == "__main__":

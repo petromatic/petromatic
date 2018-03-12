@@ -10,6 +10,9 @@ class FfAccountManager(AccountManager):
         self._url = 'localhost'
         self._tid = '797647ef89c8ddb64d382bc4c87e980de7328fb8'
 
+    def RfidLRIsValid(self, rfid):
+        return True
+
     def getUserByRFID(self, rfidlr, rfidem):
         #conn = http.client.HTTPSConnection(self._url, 5000)
         conn = http.client.HTTPConnection(self._url, 5000)
