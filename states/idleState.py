@@ -6,6 +6,7 @@ class IdleState(State):
         super(IdleState, self).__init__()
         self._station = Station.get()
         self._station.screen.showIdle()
+        self._station.rfid_em.off()
 
     def onAccessRequest(self):
         print(__file__ + " TODO: Power on")
