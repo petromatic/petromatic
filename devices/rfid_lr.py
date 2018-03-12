@@ -39,5 +39,7 @@ class RfidLR(Thread, Observable):
                 self.serial.write(msg + checksum(msg))
                 data = self.serial.readline()
                 self.serialLock.release()
-                self.raiseEvent("RfidLRRead",[base64.b64encode(data)])
+                print("".join(format(x, "02x") for x in data))
+                rfid = "".join(format(x, "02x") for x in data[6:-1])
+                self.raiseEvent("RfidLRRead",[rfid])
             sleep(0.125)
