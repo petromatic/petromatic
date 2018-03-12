@@ -3,6 +3,7 @@ from kivy.lang import Builder
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from ..observable import Observable
+import os
 
 class Driver(object):
     def __init__(self):
@@ -62,7 +63,8 @@ class Screen(App, Observable):
         self.win.setLiters(self, liters)
 
     def build(self):
-        self.win = Builder.load_file("FillWindow.kv")
+        path = os.path.dirname(os.path.abspath(__file__))
+        self.win = Builder.load_file(os.path.join(path,"fillWindow.kv"))
         self.win.suscribe(self.raiseEvent)
         return self.win
 
