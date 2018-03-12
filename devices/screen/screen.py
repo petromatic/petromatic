@@ -2,6 +2,7 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.screenmanager import ScreenManager, NoTransition, Screen as kvScreen
 from ..observable import Observable
 import os
 
@@ -29,10 +30,9 @@ class Vehicle(object):
     def setPlate(plate):
         self.plate = plate
 
-class FillWindow(GridLayout, Observable):
+class FillWindow(kvScreen, Observable):
     def __init__(self, *args, **kwargs):
         super().__init__(**kwargs)
-        self.eventListeners = []
         self.driver = Driver()
         self.vehicle = Vehicle()
         self.liters = 0
@@ -49,24 +49,38 @@ class FillWindow(GridLayout, Observable):
     def clicked(self):
         self.raiseEvent("ExitButtonClick",[])
 
+class IdleWindow(kvScreen, Observable):
+    def __init__(self, *args, **kwargs):
+        super().__init__(**kwargs)
+        
 class Screen(App, Observable):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
             
     def setDriver(self, driver):
-        self.win.setDriver(driver)
+        self.fill.setDriver(driver)
 
     def setVehicle(self, vehicle):
-        self.win.setVehicle(vehicle)
+        self.fill.setVehicle(vehicle)
     
     def setLiters(self, liters):
-        self.win.setLiters(self, liters)
+        self.fill.setLiters(self, liters)
+
+    def showFill(self):
+        self.sm.switch_to("fill")
+
+    def showIdle(self):
+        self.sm.switch_to("idle")
 
     def build(self):
         path = os.path.dirname(os.path.abspath(__file__))
-        self.win = Builder.load_file(os.path.join(path,"fillWindow.kv"))
-        self.win.suscribe(self.raiseEvent)
-        return self.win
+        self.idle = Builder.load_file(os.path.join(path,"IdleWindow.kv"), name="idle")
+        self.fill = Builder.load_file(os.path.join(path,"fillWindow.kv"), name="fill")
+        self.fill.suscribe(self.raiseEvent)
+        self.sm = ScreenManager(transition=NoTransition())
+        self.sm.add_widget(self.fill)
+        self.sm.add_widget(self.idle)
+        return self.sm
 
 if __name__ == '__main__':
     Screen().run()

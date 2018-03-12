@@ -1,39 +1,40 @@
-FillWindow:
-    cols:1
-
-    BoxLayout:
-        orientation: 'horizontal'
-        
-        GridLayout:
-            cols: 2
-            Label:
-                text: 'Nombre'
-            Label:
-                text: root.driver.name
-            Label:
-                text: 'DNI'
-            Label:
-                text: root.driver.dni
-
-        GridLayout:
-            cols: 2
-            Label:
-                text: 'Nombre'
-            Label:
-                text: root.vehicle.name
-            Label:
-                text: 'Patente'
-            Label:
-                text: root.vehicle.plate
-
+<FillWindow>:
     GridLayout:
-        cols: 2
-        Label:
-            text: 'Litros'
-        Label:
-            text: str(root.liters)
+        cols:1
+
+        BoxLayout:
+            orientation: 'horizontal'
             
-    Button:
-        text: 'Salir'
-        on_press: root.clicked()
-        size_hint_y: .25
+            GridLayout:
+                cols: 2
+                Label:
+                    text: 'Nombre'
+                Label:
+                    text: root.driver.name
+                Label:
+                    text: 'DNI'
+                Label:
+                    text: root.driver.dni
+
+            GridLayout:
+                cols: 2
+                Label:
+                    text: 'Nombre'
+                Label:
+                    text: root.vehicle.name
+                Label:
+                    text: 'Patente'
+                Label:
+                    text: root.vehicle.plate
+
+        GridLayout:
+            cols: 2
+            Label:
+                text: 'Litros'
+            Label:
+                text: str(root.liters)
+                
+        Button:
+            text: 'Salir'
+            on_press: root.clicked()
+            size_hint_y: .25
