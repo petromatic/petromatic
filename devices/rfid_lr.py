@@ -5,7 +5,7 @@ from threading import Thread
 from time import sleep
 from threading import Lock
 import base64
-from observable import Observable
+from .observable import Observable
 
 def checksum(data):
     return bytes([((0xFF ^ (sum(bytearray(data)) % 0x100)) + 1)])
