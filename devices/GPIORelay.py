@@ -8,7 +8,7 @@ class GPIORelay(GPIOPin):
         super().__init__(pin)
 
     def off(self):
-        self.setValue(0)
+        self.setValue(1)
 
     def on(self):
-        self.setValue(1)
+        self.setValue(0)
