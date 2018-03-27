@@ -7,10 +7,13 @@ from ..observable import Observable
 import os
 
 class Driver(object):
-    def __init__(self):
+    def __init__(self, data_dict = None):
         super().__init__()
         self.name = ""
         self.dni = ""
+        if data_dict is not None:
+            self.name = data_dict["name"] + " " + data_dict["surname"]
+            self.dni = data_dict["dni"]
     
     def setName(name):
         self.name = name
@@ -19,10 +22,13 @@ class Driver(object):
         self.dni = dni
 
 class Vehicle(object):
-    def __init__(self):
+    def __init__(self, data_dict = None):
         super().__init__()
         self.name = ""
         self.plate = ""
+        if data_dict is not None:
+            self.name = data_dict["brand"] + " " + data_dict["model"]
+            self.plate = data_dict["plate"]
     
     def setName(name):
         self.name = name

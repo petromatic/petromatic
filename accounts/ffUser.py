@@ -19,6 +19,12 @@ class FfUser(User):
     def getCredit(self):
         return self._limit
 
+    def getVehicleDict(self):
+        return self._data["truck_data"]
+
+    def getDriverDict(self):
+        return self._data["driver_data"]
+
     def addCharge(self, charge):
         localtime = int(time()*1000)
         key = ""

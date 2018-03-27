@@ -1,6 +1,8 @@
 from .state import State
 from .station import Station
 
+from ..devices.screen.screen import Vehicle, Driver
+
 class FillState(State):
     def __init__(self):
         super(FillState, self).__init__()
@@ -9,6 +11,13 @@ class FillState(State):
         self._credit = self._station.user.getCredit()
         self._charge = 0
         self._station.screen.showFill()
+
+        v = Vehicle(data_dict = self._station.user.getVehicleDict())
+        d = Driver(data_dict = self._station.user.getDriverDict())
+
+        self._station.screen.setDriver(d)
+        self._station.screen.setVehicle(v)
+        self._station.screen.setLiters(self._credit)
 
     def onFlowMeterChange(self, value):
         self._charge = value
