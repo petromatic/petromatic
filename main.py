@@ -13,15 +13,22 @@ from states.station import Station
 from states.stateMachine import StateMachine
 import configparser
 
+from subprocess import check_output
 
 def main():
     config = configparser.SafeConfigParser()
     config.read('config.ini')
     station = Station.get()
     gpioRelay = int(config.get('PUMP','RELAY_PIN', fallback=21))
-    flowMeterPort = config.get('FLOWMETER', 'TTY', fallback='/dev/ttyUSB0')
-    rfidemPort = config.get('RFIDEM', 'TTY', fallback='/dev/ttyUSB1')
-    rfidlrPort = config.get('RFIDLR', 'TTY', fallback='/dev/ttyUSB2')
+
+    flowMeterDev = config.get('FLOWMETER', 'DEV')
+    rfidemDev = config.get('RFIDEM', 'DEV')
+    rfidlrDev = config.get('RFIDLR', 'DEV')
+
+    flowMeterPort = "/dev/"+check_output("./usb.sh "+flowMeterDev, shell=True).decode('utf-8').strip()
+    rfidemPort    = "/dev/"+check_output("./usb.sh "+rfidemDev, shell=True).decode('utf-8').strip()
+    rfidlrPort    = "/dev/"+check_output("./usb.sh "+rfidlrDev, shell=True).decode('utf-8').strip()
+
     station.pump = GPIORelay(gpioRelay)
     station.flowMeter = FlowMeter(Serial(flowMeterPort, timeout=1))
     station.flowMeter.suscribe(lambda e,a: s.do(e,a))
