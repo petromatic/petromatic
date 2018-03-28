@@ -5,6 +5,7 @@ class VehicleinState(State):
     def __init__(self):
         super(VehicleinState, self).__init__()
         self._station = Station.get()
+        self._station.screen.showIdle()
         self._station.rfid_em.on()
 
     def onRfidEMRead(self, rfid):
@@ -17,6 +18,9 @@ class VehicleinState(State):
         else:
             self._station.rfid_em.nack()
             return self
+
+    def onRfidLRRead(self, rfid):
+        return self.onExitRequest()
 
     def onExitRequest(self):
         print(__file__ + " TODO: Open exit gate")

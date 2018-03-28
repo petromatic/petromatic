@@ -1,8 +1,6 @@
 from .state import State
 from .station import Station
 
-from ..devices.screen.screen import Vehicle, Driver
-
 class FillState(State):
     def __init__(self):
         super(FillState, self).__init__()
@@ -12,11 +10,8 @@ class FillState(State):
         self._charge = 0
         self._station.screen.showFill()
 
-        v = Vehicle(data_dict = self._station.user.getVehicleDict())
-        d = Driver(data_dict = self._station.user.getDriverDict())
-
-        self._station.screen.setDriver(d)
-        self._station.screen.setVehicle(v)
+        self._station.screen.setDriver(self._station.user.getDriverDict())
+        self._station.screen.setVehicle(self._station.user.getVehicleDict())
         self._station.screen.setLiters(self._credit)
 
     def onFlowMeterChange(self, value):
@@ -25,9 +20,13 @@ class FillState(State):
             self._station.pump.off()
         return self
 
+    def onRfidEMRead(self, rfid):
+        return self.onPumpCloses()
+
     def onPumpCloses(self):
         self._station.pump.off()
         self._station.user.addCharge(self._charge)
+        print("RESET")
         self._station.flowMeter.reset()
         self._station.rfid_em.off()
         self._station.user = None

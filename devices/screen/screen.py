@@ -1,4 +1,5 @@
 from kivy.app import App
+from kivy.properties import NumericProperty, DictProperty
 from kivy.lang import Builder
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
@@ -37,20 +38,23 @@ class Vehicle(object):
         self.plate = plate
 
 class FillWindow(kvScreen, Observable):
+    liters = NumericProperty(0.0)
+    driver = DictProperty({'name' : "",'dni' : ""})
+    vehicle = DictProperty({'name' : "",'plate' : ""})
+
     def __init__(self, *args, **kwargs):
         super().__init__(**kwargs)
-        self.driver = Driver()
-        self.vehicle = Vehicle()
+        self.name = "fill"
         self.liters = 0
 
     def setVehicle(self, vehicle):
-        self.vehicle = vehicle
+        vehicle = vehicle
 
     def setDriver(self, driver):
-        self.driver = driver
+        driver = driver
 
     def setLiters(self, liters):
-        self.liters = liters
+        liters = liters
 
     def clicked(self):
         self.raiseEvent("ExitButtonClick",[])
@@ -58,6 +62,7 @@ class FillWindow(kvScreen, Observable):
 class IdleWindow(kvScreen, Observable):
     def __init__(self, *args, **kwargs):
         super().__init__(**kwargs)
+        self.name = "idle"
         
 class Screen(App, Observable):
     def __init__(self, **kwargs):
@@ -67,6 +72,8 @@ class Screen(App, Observable):
         self.idle = Builder.load_file(os.path.join(path,"idleWindow.kv"), name="idle")
         self.fill = Builder.load_file(os.path.join(path,"fillWindow.kv"), name="fill")
         self.fill.suscribe(self.raiseEvent)
+        self.sm.add_widget(self.fill)
+        self.sm.add_widget(self.idle)
             
     def setDriver(self, driver):
         self.fill.setDriver(driver)
@@ -78,10 +85,10 @@ class Screen(App, Observable):
         self.fill.setLiters(liters)
 
     def showFill(self):
-        self.sm.switch_to(self.fill)
+        self.sm.current = "fill"
 
     def showIdle(self):
-        self.sm.switch_to(self.idle)
+        self.sm.current = "idle"
 
     def build(self):
         return self.sm
