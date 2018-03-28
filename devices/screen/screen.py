@@ -75,7 +75,7 @@ class Screen(App, Observable):
         self.fill.setVehicle(vehicle)
     
     def setLiters(self, liters):
-        self.fill.setLiters(self, liters)
+        self.fill.setLiters(liters)
 
     def showFill(self):
         self.sm.switch_to(self.fill)
