@@ -7,6 +7,7 @@ class GPIOPin(object):
         super().__init__()
         self._pin = pin
         GPIO.setup(self._pin, GPIO.OUT)
+        GPIO.output(self._pin, 1)
         
     def setValue(self, value):
         GPIO.output(self._pin, value)
