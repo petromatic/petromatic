@@ -9,7 +9,7 @@ class FfUser(User):
         self._data = data
         self._rfidlr = rfidlr
         self._rfidem = rfidem
-        self._url = 'localhost'
+        self._url = 'us-central1-petromatic-4240b.cloudfunctions.net'
 
         if "order" in data and len(data["order"]) > 0:
             self._limit = next (iter (data["order"].values()))["value"]
@@ -32,7 +32,7 @@ class FfUser(User):
             key = k
             break
         
-        conn = http.client.HTTPConnection(self._url, 5000)
-        conn.request("GET", "/petromatic-4240b/us-central1/pushTransaction/"+"/".join([self._rfidlr, self._rfidem, key, str(charge)]))
+        conn = http.client.HTTPSConnection(self._url)
+        conn.request("GET", "/pushTransaction/"+"/".join([self._rfidlr, self._rfidem, key, str(charge)]))
         res = conn.getresponse()
         data = res.read()
