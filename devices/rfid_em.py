@@ -56,8 +56,8 @@ class RfidEM(Thread, Observable):
             self.serialLock.acquire()
             data = self.serial.readline()
             self.serialLock.release()
-            r = exp.match(data.decode('utf-8'))
+            r = exp.search(data.decode('utf-8'))
             if r is not None:
-                rfid = data[r.pos+5:r.pos+13]
+                rfid = data[r.pos+11:r.pos+21]
                 self.raiseEvent("RfidEMRead",[rfid])
-            sleep(0.125)
+            sleep(0.025)
