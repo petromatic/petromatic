@@ -14,10 +14,13 @@ from states.stateMachine import StateMachine
 import configparser
 
 from subprocess import check_output
+import os
+
 
 def main():
     config = configparser.SafeConfigParser()
-    config.read('config.ini')
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    config.read(os.path.join(dir_path,'config.ini'))
     station = Station.get()
     gpioRelay = int(config.get('PUMP','RELAY_PIN', fallback=21))
 
@@ -25,9 +28,9 @@ def main():
     rfidemDev = config.get('RFIDEM', 'DEV')
     rfidlrDev = config.get('RFIDLR', 'DEV')
 
-    flowMeterPort = "/dev/"+check_output("./usb.sh "+flowMeterDev, shell=True).decode('utf-8').strip()
-    rfidemPort    = "/dev/"+check_output("./usb.sh "+rfidemDev, shell=True).decode('utf-8').strip()
-    rfidlrPort    = "/dev/"+check_output("./usb.sh "+rfidlrDev, shell=True).decode('utf-8').strip()
+    flowMeterPort = "/dev/"+check_output(os.path.join(dir_path,"usb.sh")+" "+flowMeterDev, shell=True).decode('utf-8').strip()
+    rfidemPort    = "/dev/"+check_output(os.path.join(dir_path,"usb.sh")+" "+rfidemDev, shell=True).decode('utf-8').strip()
+    rfidlrPort    = "/dev/"+check_output(os.path.join(dir_path,"usb.sh")+" "+rfidlrDev, shell=True).decode('utf-8').strip()
 
     station.pump = GPIORelay(gpioRelay)
     station.flowMeter = FlowMeter(Serial(flowMeterPort, timeout=1))
