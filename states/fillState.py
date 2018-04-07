@@ -1,5 +1,6 @@
 from .state import State
 from .station import Station
+from datetime import date
 
 class FillState(State):
     def __init__(self):
@@ -25,10 +26,28 @@ class FillState(State):
 
     def onPumpCloses(self):
         self._station.pump.off()
-        self._station.user.addCharge(self._charge)
-        print("RESET")
+        ticket = self.printTicket()
+        self._station.user.addCharge(self._charge, ticket)
         self._station.flowMeter.reset()
         self._station.rfid_em.off()
         self._station.user = None
         from .vehicleinState import VehicleinState
         return VehicleinState()
+
+    def printTicket(self):
+        driver = self._station.user.getDriverDict()
+        vehicle = self._station.user.getVehicleDict()
+        ticket = [
+            "fecha: " + str(date.today()),
+            "empresa: El Lucero de Tandil",
+            "remito: " + 122,
+            "patente: " + vehicle["plate"],
+            "chofer: " + driver["name"] + " " + driver["surname"],
+            "litros: " + self._charge
+        ]
+
+        for i in range(len(ticket)):
+            self._station.flowMeter.setLabel(i, ticket[i])
+
+        return self._station.flowMeter.print()
+        # self._station.printer.print(ticket)
