@@ -11,6 +11,7 @@ class Station(object):
         self.user = None
         self.rflrId = None
         self.screen = None
+        self.printer = None
 
     @staticmethod
     def get():
