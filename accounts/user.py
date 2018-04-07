@@ -9,3 +9,9 @@ class User(object):
 
     def addCharge(self, charge):
         self._credit -= charge
+
+    def getVehicleDict(self):
+        return {}
+
+    def getDriverDict(self):
+        return {}
