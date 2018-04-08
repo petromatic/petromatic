@@ -7,36 +7,6 @@ from kivy.uix.screenmanager import ScreenManager, NoTransition, Screen as kvScre
 from ..observable import Observable
 import os
 
-class Driver(object):
-    def __init__(self, data_dict = None):
-        super().__init__()
-        self.name = ""
-        self.dni = ""
-        if data_dict is not None:
-            self.name = data_dict["name"] + " " + data_dict["surname"]
-            self.dni = data_dict["dni"]
-    
-    def setName(name):
-        self.name = name
-    
-    def setDNI(dni):
-        self.dni = dni
-
-class Vehicle(object):
-    def __init__(self, data_dict = None):
-        super().__init__()
-        self.name = ""
-        self.plate = ""
-        if data_dict is not None:
-            self.name = data_dict["brand"] + " " + data_dict["model"]
-            self.plate = data_dict["plate"]
-    
-    def setName(name):
-        self.name = name
-    
-    def setPlate(plate):
-        self.plate = plate
-
 class FillWindow(kvScreen, Observable):
     liters = NumericProperty(0.0)
     driver = DictProperty({'name' : "",'dni' : ""})
@@ -44,17 +14,16 @@ class FillWindow(kvScreen, Observable):
 
     def __init__(self, *args, **kwargs):
         super().__init__(**kwargs)
-        self.name = "fill"
         self.liters = 0
 
     def setVehicle(self, vehicle):
-        vehicle = vehicle
+        self.vehicle = vehicle
 
     def setDriver(self, driver):
-        driver = driver
+        self.driver = driver
 
     def setLiters(self, liters):
-        liters = liters
+        self.liters = liters
 
     def clicked(self):
         self.raiseEvent("ExitButtonClick",[])
@@ -62,7 +31,6 @@ class FillWindow(kvScreen, Observable):
 class IdleWindow(kvScreen, Observable):
     def __init__(self, *args, **kwargs):
         super().__init__(**kwargs)
-        self.name = "idle"
         
 class Screen(App, Observable):
     def __init__(self, **kwargs):
