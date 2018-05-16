@@ -37,10 +37,11 @@ class FillState(State):
     def printTicket(self):
         driver = self._station.user.getDriverDict()
         vehicle = self._station.user.getVehicleDict()
+        invoiceId = self._station.user.getInvoiceId()
         ticket = [
             "fecha: " + str(date.today()),
             "empresa: El Lucero de Tandil",
-            "remito: " + 122,
+            "remito: " + invoiceId,
             "patente: " + vehicle["plate"],
             "chofer: " + driver["name"] + " " + driver["surname"],
             "litros: " + self._charge

@@ -23,3 +23,10 @@ class IdleState(State):
         else:
             return self
 
+    def onPhoneRequestCharge(self, invoiceId, driver, vehicle, liters):
+        from .fillState import FillState
+
+        user = self._station.accountManager.getUserFromDict(invoiceId, driver, vehicle, liters)
+        if user is not None:
+            self._station.user = user
+            return FillState()

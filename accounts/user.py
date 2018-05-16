@@ -3,6 +3,9 @@ class User(object):
     def __init__(self):
         super(User, self).__init__()
         self._credit = 0
+        self._vehicle = {}
+        self._driver = {}
+        self._invoiceId = 0
 
     def getCredit(self):
         return self._credit
@@ -11,7 +14,10 @@ class User(object):
         self._credit -= charge
 
     def getVehicleDict(self):
-        return {}
+        return self._vehicle
 
     def getDriverDict(self):
-        return {}
+        return self._driver
+
+    def getInvoiceId(self):
+        return self._invoiceId
