@@ -13,7 +13,7 @@ class FillWindow(kvScreen, Observable):
     vehicle = DictProperty({'name' : "",'plate' : ""})
 
     def __init__(self, *args, **kwargs):
-        super().__init__(**kwargs)
+        super().__init__(name="fill",**kwargs)
         self.liters = 0
 
     def setVehicle(self, vehicle):
@@ -30,7 +30,7 @@ class FillWindow(kvScreen, Observable):
 
 class IdleWindow(kvScreen, Observable):
     def __init__(self, *args, **kwargs):
-        super().__init__(**kwargs)
+        super().__init__(name="idle",**kwargs)
         
 class Screen(App, Observable):
     def __init__(self, **kwargs):
